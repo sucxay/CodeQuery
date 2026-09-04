@@ -1,0 +1,40 @@
+POST GitHub URL
+       ↓
+    github.py 
+       ↓
+    loader.py
+       ↓
+   splitter.py
+       ↓
+ embeddings.py
+       ↓
+ vectorstore.py
+       ↓
+────────────────────
+ User asks question
+       ↓
+  retriever.py
+       ↓
+ relevant code
+       ↓
+     rag.py
+       ↓
+     llm.py
+       ↓
+    Answer
+
+
+
+main.py          → FastAPI endpoints
+schemas.py       → Request/response models
+
+github.py        → Get/clone GitHub repository
+loader.py        → Read repository files
+splitter.py      → Break code into chunks
+
+embeddings.py    → Convert chunks → vectors
+vectorstore.py   → Store/search vectors
+retriever.py     → Find relevant code
+
+llm.py           → Configure the LLM
+rag.py           → Connect retrieval + LLM
