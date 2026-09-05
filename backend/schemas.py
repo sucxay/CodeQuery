@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 
+class requestURL(BaseModel):
+    github_url:str
 
-class RepositoryRequest(BaseModel):
-    github_url: str
+class askQuestion(BaseModel):
+    question:str
 
-
-class QuestionRequest(BaseModel):
-    question: str
+    
