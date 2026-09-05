@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import {
   ArrowUpRight,
   BookOpen,
-  Check,
   ChevronDown,
   ChevronRight,
   CircleHelp,
@@ -16,12 +15,10 @@ import {
   LockKeyhole,
   MessageSquareText,
   MoreHorizontal,
-  Plus,
   Search,
   Send,
   Settings2,
   Sparkles,
-  Star,
   TerminalSquare,
   UploadCloud,
   X,
@@ -41,12 +38,6 @@ const files = [
   { name: 'README.md', type: 'markdown' },
 ]
 
-const sources = [
-  { file: 'app/api/router.py', lines: 'L18–42', color: 'mint' },
-  { file: 'app/api/dependencies.py', lines: 'L07–29', color: 'yellow' },
-  { file: 'app/config/settings.py', lines: 'L01–24', color: 'blue' },
-]
-
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
 
 function App() {
@@ -56,7 +47,6 @@ function App() {
   const [repositoryUrl, setRepositoryUrl] = useState('')
   const [repositoryName, setRepositoryName] = useState('No repository indexed')
   const [filesIndexed, setFilesIndexed] = useState(0)
-  const [showSources, setShowSources] = useState(true)
   const [isIndexing, setIsIndexing] = useState(false)
   const [isAsking, setIsAsking] = useState(false)
   const [error, setError] = useState('')
@@ -114,7 +104,7 @@ function App() {
   return (
     <main className="app-shell">
       <aside className="sidebar">
-        <div className="brand"><div className="brand-mark"><Code2 size={19} strokeWidth={2.6} /></div><span>atlas</span><small>code rag</small></div>
+        <div className="brand"><div className="brand-mark"><Code2 size={19} strokeWidth={2.6} /></div><span>Code Query</span><small>code rag</small></div>
         <button className="workspace-switcher"><span className="repo-dot" />Summify <ChevronDown size={15} /></button>
         <nav className="nav-list">
           <div className="nav-label">workspace</div>
@@ -141,7 +131,7 @@ function App() {
         </header>
 
         <div className="content-wrap">
-          <div className="page-heading"><div><p className="eyebrow">Repository intelligence / 01</p><h1>Good morning, Suchay<span className="accent">.</span></h1><p className="subheading">A clear view into what Atlas knows about your codebase.</p></div><button className="outline-button" onClick={connectRepository} disabled={isIndexing}>{isIndexing ? 'Indexing...' : <><GitBranch size={16} />{repositoryUrl ? 'Re-index repository' : 'Connect repository'}</>}</button></div>
+          <div className="page-heading"><div><p className="eyebrow">Repository intelligence / 01</p><h1>Good morning, Suchay<span className="accent">.</span></h1><p className="subheading">A clear view into what Code Query knows about your codebase.</p></div><button className="outline-button" onClick={connectRepository} disabled={isIndexing}>{isIndexing ? 'Indexing...' : <><GitBranch size={16} />{repositoryUrl ? 'Re-index repository' : 'Connect repository'}</>}</button></div>
 
           <section className="stats-grid">
             <article className="stat-card highlight"><div className="stat-icon"><Sparkles size={18} /></div><span className="stat-label">Repository health</span><strong>Excellent</strong><small><span className="positive">↑ 12%</span> from last index</small><div className="health-lines"><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div></article>
@@ -151,9 +141,9 @@ function App() {
 
           <div className="dashboard-grid">
             <section className="panel ask-panel"><div className="panel-heading"><div><p className="eyebrow">Ask the codebase</p><h2>What do you want to understand?</h2></div><div className="ai-badge"><Sparkles size={14} /> grounded AI</div></div>
-              <form className="question-box" onSubmit={askQuestion}><textarea value={question} onChange={(e) => setQuestion(e.target.value)} rows="3" /><div className="question-toolbar"><span><LockKeyhole size={14} /> Answers use indexed code only</span><button className="send-button" type="submit" disabled={isAsking}>{isAsking ? 'Asking...' : <><Send size={16} /> Ask Atlas</>}</button></div></form>
+              <form className="question-box" onSubmit={askQuestion}><textarea value={question} onChange={(e) => setQuestion(e.target.value)} rows="3" /><div className="question-toolbar"><span><LockKeyhole size={14} /> Answers use indexed code only</span><button className="send-button" type="submit" disabled={isAsking}>{isAsking ? 'Asking...' : <><Send size={16} /> Ask Code Query</>}</button></div></form>
               {error && <p className="api-error">{error}</p>}
-              <div className="answer-block">{answer ? <><div className="answer-meta"><div className="answer-avatar"><Sparkles size={15} /></div><span>Atlas answered from {repositoryName}</span><time>just now</time><button className="plain-icon" title="More"><MoreHorizontal size={17} /></button></div><h3>{submittedQuestion}</h3>{answer.split('\n').filter(Boolean).map((paragraph) => <p className="answer-copy" key={paragraph}>{paragraph}</p>)}</> : <p className="answer-copy">Index a public GitHub repository, then ask a question to receive an answer grounded in its code.</p>}</div>
+              <div className="answer-block">{answer ? <><div className="answer-meta"><div className="answer-avatar"><Sparkles size={15} /></div><span>Code Query answered from {repositoryName}</span><time>just now</time><button className="plain-icon" title="More"><MoreHorizontal size={17} /></button></div><h3>{submittedQuestion}</h3>{answer.split('\n').filter(Boolean).map((paragraph) => <p className="answer-copy" key={paragraph}>{paragraph}</p>)}</> : <p className="answer-copy">Index a public GitHub repository, then ask a question to receive an answer grounded in its code.</p>}</div>
             </section>
 
             <aside className="right-rail"><section className="panel repository-panel"><div className="panel-heading compact"><div><p className="eyebrow">Active repository</p><h2><span className="repo-dot" />{repositoryName}</h2></div><button className="plain-icon" title="Repository menu"><MoreHorizontal size={18} /></button></div><div className="repo-url"><GitBranch size={15} /> {repositoryUrl || 'No repository connected'} </div><div className="repo-stats"><div><strong>{filesIndexed.toLocaleString()}</strong><span>documents</span></div><div><strong>{repositoryUrl ? 'ready' : 'idle'}</strong><span>status</span></div><div><strong>API</strong><span>source</span></div></div><button className="text-button" onClick={connectRepository}>Index a repository <ArrowUpRight size={15} /></button></section>
